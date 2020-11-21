@@ -1,16 +1,15 @@
 const express  = require('express')
-const Students = require('../controllers/Students')
+const router   = express.Router()
+const Student  = require('../controllers/StudentController')
 
-const router = express.Router()
+router.get('/students', Student.findAll)
 
-router.get('/students', Students.findAll)
+router.get('/students/:id', Student.findById)
 
-router.get('/students/:id', Students.findById)
+router.post('/students', Student.create)
 
-router.post('/students', Students.create)
+router.put('/students/:id', Student.update)
 
-router.put('/students/:id', Students.update)
-
-router.delete('/students/:id', Students.delete)
+router.delete('/students/:id', Student.delete)
 
 module.exports = router
