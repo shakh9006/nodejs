@@ -1,4 +1,5 @@
 const StudentModel = require('../models/Student')
+const {createOrUpdateValidation} = require('../validation')
 
 const StudentController = {
     result(res, err, student) {
@@ -23,6 +24,11 @@ const StudentController = {
 
     create(req, res) {
         const student = new StudentModel(req.body)
+        const {error} = createOrUpdateValidation(student)
+        if (error) {
+            res.status(400).send({success: false, message: error.details[0].message})
+            return
+        }
         StudentModel.create(student, (err, student) => StudentController.result(res, err, student))
     },
 
@@ -32,6 +38,11 @@ const StudentController = {
 
     update(req, res) {
         const student = new StudentModel(req.body)
+        const {error} = createOrUpdateValidation(student)
+        if (error) {
+            res.status(400).send({success: false, message: error.details[0].message})
+            return
+        }
         StudentModel.update(req.params.id, student, (err, student) => StudentController.result(res, err, student))
     },
 
